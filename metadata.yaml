@@ -1,0 +1,14 @@
+name: motion
+summary: Motion monitors a camera for motion and writes videos of the motion.
+maintainers:
+  - Juju Developers <juju@lists.ubuntu.com>
+description: |
+  Motion can communicate with mysql to store evnts and it runs arbitrary scripts on events.
+tags:
+  - database
+  - camera
+requires:
+    mysql:
+        interface: mysql
+series:
+   - kubernetes

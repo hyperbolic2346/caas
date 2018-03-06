@@ -1,0 +1,49 @@
+name: $name
+image-name: $image
+ports:
+- container-port: $port
+  protocol: TCP
+files:
+  - name: configurations
+    mount-path: /etc/motion/motion.conf
+    files:
+      motion.conf: |
+        netcam_url $camera_url
+        rtsp_uses_tcp on
+        netcam_keepalive on
+        threshold 150
+        noise_tune off
+        despeckle_filter EedDl
+        minimum_motion_frames 5
+        post_capture 20
+        event_gap 60
+        output_pictures best
+        ffmpeg_output_movies on
+        ffmpeg_bps 500000
+        ffmpeg_video_codec passthru
+        text_right %Y-%m-%d\n%T-%q
+        target_dir $target_dir
+        snapshot_filename %Y/%m/%d/%H/%M/%S-snapshot
+        picture_filename %Y/%m/%d/%H/%M/%S-%q
+        movie_filename %Y/%m/%d/%H%M%S
+        timelapse_filename %Y/%m/%d-timelapse
+        stream_port $port
+        stream_motion on
+        stream_localhost off
+        ; on_event_start value
+        ; on_event_end value
+        ; on_picture_save /motion_scripts/photo_saved %f %e
+        ; on_motion_detected value
+        ; on_area_detected value
+        ; on_movie_start /motion_scripts/movie_start %f
+        ; on_movie_end /motion_scripts/movie_end %f %e
+        ; on_camera_lost value
+        sql_log_movie on
+        sql_query insert into security_file(camera, event_id, filename, frame, file_type, time_stamp) values('%t', '%{dbeventid}', '%f', '%q', '%n', '%Y-%m-%d %T')
+        sql_query_start insert into security_events (camera, event_time_stamp) values('%t', '%Y-%m-%d %T')
+        database_type mysql
+        database_dbname $db_dbname
+        database_host $db_host
+        database_user $db_user
+        database_password $db_pass
+        database_port $db_port

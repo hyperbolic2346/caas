@@ -1,0 +1,13 @@
+options:
+  image:
+    type: string
+    description: 'The docker image of motion to install.'
+    default: 'knobby/motion:latest'
+  live_port:
+    type: string
+    description: 'The port for the live camera feed'
+    default: '9801'
+  camera_url:
+    type: string
+    description: 'URL for camera to monitor'
+    default: 'http://test.cam.url'
